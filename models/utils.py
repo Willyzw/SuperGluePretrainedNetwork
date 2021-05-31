@@ -129,7 +129,6 @@ class VideoStreamer:
             self._ip_camera = True
             self.listing = range(0, self.max_length)
         elif Path(basedir).is_dir():
-            print('==> Processing image directory input: {}'.format(basedir))
             self.listing = list(Path(basedir).glob(image_glob[0]))
             for j in range(1, len(image_glob)):
                 image_path = list(Path(basedir).glob(image_glob[j]))
@@ -141,6 +140,7 @@ class VideoStreamer:
                 raise IOError('No images found (maybe bad \'image_glob\' ?)')
             self.listing = self.listing[:self.max_length]
             self.camera = False
+            print('==> Processing image directory input: {} with {} images'.format(basedir, len(self.listing)))
         elif Path(basedir).exists():
             print('==> Processing video input: {}'.format(basedir))
             self.cap = cv2.VideoCapture(basedir)
@@ -171,6 +171,9 @@ class VideoStreamer:
         grayim = cv2.resize(
             grayim, (w_new, h_new), interpolation=self.interp)
         return grayim
+
+    def reset(self):
+        self.i = 0
 
     def next_frame(self):
         """ Return the next frame, and increment internal counter.

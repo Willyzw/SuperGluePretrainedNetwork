@@ -248,6 +248,7 @@ if __name__ == '__main__':
         timer.update('viz')
         timer.print()
 
+        cv2.waitKey(0)
         if opt.output_dir is not None:
             #stem = 'matches_{:06}_{:06}'.format(last_image_id, vs.i-1)
             stem = 'matches_{:06}_{:06}'.format(stem0, stem1)
